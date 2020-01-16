@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- bootstrap（https://getbootstrap.com/docs/4.1/getting-started/introduction/）のページの「Bootstrap CDN」の箇所をコピー -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/style.css">
+    <title>ストップウォッチ</title>
+</head>
+<body>
+    <div class="container">
+        <p id="timer">00:00:00</p>
+            
+        <div>
+            <button id="timer_btn" class="btn btn-lg btn-primary">START</button>
+        </div>
+    </div>
+
+    <script>
+        // 一桁の場合に、ゼロを追加するプログラム
+        var addZero = function(value) {
+            if(value < 10) {
+                value = '0' + value; 
+            }
+            return value;
+        }
+
+        document.getElementById('timer_btn').addEventListener('click', function() {
+            var now = new Date();
+            var seconds = now.getSeconds();
+            seconds = addZero(seconds);
+            var minutes = now.getMinutes();
+            minutes = addZero(minutes);
+            var hours = now.getHours();
+            hours = addZero(hours);
+
+            // document.getElementById('timer').innerHTML = '00:00:01';
+            document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- bootstrap（https://getbootstrap.com/docs/4.1/getting-started/introduction/）のページの「Bootstrap CDN」の箇所をコピー -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/style.css">
+    <title>ストップウォッチ</title>
+</head>
+<body>
+    <div class="container">
+        <p id="timer">00:00:00</p>
+            
+        <div>
+            <button id="timer_btn" class="btn btn-lg btn-primary">START</button>
+            <button id="reset_btn" class="btn btn-lg btn-secondary">RESET</button>
+        </div>
+    </div>
+
+    <script>
+        var start; //グローバル変数にするためにこの箇所で宣言
+        var timer_id;
+        var time = 0;
+
+        // 一桁の場合に、ゼロを追加するプログラム
+        var addZero = function(value) {
+            if(value < 10) {
+                value = '0' + value; 
+            }
+            return value;
+        }
+
+        document.getElementById('timer_btn').addEventListener('click', function() {
+            // var start = new Date();
+            if(this.innerHTML === 'START'){
+                start = new Date();
+
+                timer_id = setInterval(goTimer, 10);
+
+                // STOPボタンに切り替える処理
+                this.innerHTML = 'STOP';
+                this.classList.remove('btn-primary');
+                this.classList.add('btn-danger');
+            }else{
+                var now = new Date();
+                time = time + now.getTime() - start.getTime(); // 計測しているミリ秒を取得
+                clearInterval(timer_id);
+                // STARTボタンに切り替える処理
+                this.innerHTML = 'START';
+                this.classList.remove('btn-danger');
+                this.classList.add('btn-primary');    
+            }
+        })
+
+        document.getElementById('reset_btn').addEventListener('click', function() {
+            time = 0;
+            start = new Date();
+            document.getElementById('timer').innerHTML = '00:00:00';
+        })
+
+        var goTimer = function() {
+            var now = new Date();
+
+            var milli = time + now.getTime() - start.getTime();
+            var seconds = Math.floor(milli / 1000);
+            var minutes = Math.floor(seconds / 60);
+            var hours = Math.floor(minutes / 60);
+
+            seconds = seconds - minutes * 60;
+            minutes = minutes - hours *60;
+
+            seconds = addZero(seconds);
+            minutes = addZero(minutes);
+            hours = addZero(hours);
+
+            // document.getElementById('timer').innerHTML = seconds;
+            document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
+
+        }
+    </script>
+</body>
+</html>
